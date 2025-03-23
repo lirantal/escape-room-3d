@@ -1,10 +1,15 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Box, Text } from '@react-three/drei'
 import * as THREE from 'three'
 import DraggableText from './DraggableText'
+import Sun from './Sun'
+import LightSwitch from './LightSwitch'
+import Laser from './Laser'
 
 export default function Room() {
+  const [isLaserOn, setIsLaserOn] = useState(false)
+  
   // Room dimensions
   const width = 6
   const height = 4
@@ -111,6 +116,11 @@ export default function Room() {
           ²
         </DraggableText>
       </group>
+
+      {/* Wall objects */}
+      <Sun />
+      <LightSwitch onToggle={setIsLaserOn} />
+      <Laser isOn={isLaserOn} />
     </group>
   )
 } 
