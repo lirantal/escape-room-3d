@@ -6,6 +6,7 @@ import DraggableText from './DraggableText'
 import Sun from './Sun'
 import LightSwitch from './LightSwitch'
 import Laser from './Laser'
+import SecurityKeypad from './SecurityKeypad'
 import { extend } from '@react-three/fiber'
 
 // Define types for the shader material
@@ -130,15 +131,18 @@ export default function Room() {
         <meshStandardMaterial color="#F5F5F5" />
       </Box>
 
-      {/* Left Wall */}
-      <Box args={[0.1, height, depth]} position={[-width/2, height/2, 0]}>
+      {/* Left Wall: sun lightswitch and laser objects */}
+      <Box className="leftwall" args={[0.1, height, depth]} position={[-width/2, height/2, 0]}>
         <vintageWallMaterial ref={wallMaterialRef} />
       </Box>
 
-      {/* Right Wall */}
+      {/* Right Wall with Security Keypad */}
       <Box args={[0.1, height, depth]} position={[width/2, height/2, 0]}>
         <vintageWallMaterial ref={wallMaterialRef} />
       </Box>
+      <group position={[width/2 - 0.05, 2, 0]} rotation={[0, -Math.PI/2, 0]}>
+        <SecurityKeypad />
+      </group>
 
       {/* Back Wall */}
       <Box args={[width, height, 0.1]} position={[0, height/2, -depth/2]}>
