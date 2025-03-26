@@ -40,13 +40,7 @@ export default function FlashlightControl({
         </Box>
         
         {/* Button label */}
-        <Box args={[0.15, 0.03, 0.01]} position={[0, -0.08, 0]}>
-          <meshStandardMaterial
-            color="#333333"
-            roughness={0.4}
-            metalness={0.6}
-          />
-        </Box>
+
       </group>
 
       {/* Flashlight */}
