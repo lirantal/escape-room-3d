@@ -7,6 +7,7 @@ import Sun from './Sun'
 import LightSwitch from './LightSwitch'
 import Laser from './Laser'
 import SecurityKeypad from './SecurityKeypad'
+import FlashlightControl from './FlashlightControl'
 import { extend } from '@react-three/fiber'
 
 // Define types for the shader material
@@ -132,16 +133,19 @@ export default function Room() {
       </Box>
 
       {/* Left Wall: sun lightswitch and laser objects */}
-      <Box className="leftwall" args={[0.1, height, depth]} position={[-width/2, height/2, 0]}>
+      <Box args={[0.1, height, depth]} position={[-width/2, height/2, 0]}>
         <vintageWallMaterial ref={wallMaterialRef} />
       </Box>
 
-      {/* Right Wall with Security Keypad */}
+      {/* Right Wall with Security Keypad and Flashlight */}
       <Box args={[0.1, height, depth]} position={[width/2, height/2, 0]}>
         <vintageWallMaterial ref={wallMaterialRef} />
       </Box>
       <group position={[width/2 - 0.05, 2, 0]} rotation={[0, -Math.PI/2, 0]}>
         <SecurityKeypad />
+      </group>
+      <group position={[width/2 - 0.05, 2.5, 0]} rotation={[0, -Math.PI/2, 0]}>
+        <FlashlightControl />
       </group>
 
       {/* Back Wall */}
