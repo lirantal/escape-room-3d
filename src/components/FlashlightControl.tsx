@@ -22,7 +22,7 @@ export default function FlashlightControl({
   return (
     <group ref={groupRef} position={position} rotation={rotation}>
       {/* Button */}
-      <group position={[0, 0, 0]}>
+      <group position={[1, 0, 0]}>
         <Box 
           args={[0.1, 0.1, 0.05]} 
           position={[-0.2, 0.3, 0]}
@@ -44,7 +44,7 @@ export default function FlashlightControl({
       </group>
 
       {/* Flashlight */}
-      <group position={[0, 0.3, 0]}>
+      <group position={[1, 0.3, 0]}>
         <Flashlight isOn={isFlashlightOn} />
       </group>
     </group>

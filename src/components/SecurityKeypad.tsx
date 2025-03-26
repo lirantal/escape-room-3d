@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Box, Text } from '@react-three/drei'
+import { Box, Text, Plane } from '@react-three/drei'
 import * as THREE from 'three'
 
 export default function SecurityKeypad() {
@@ -49,10 +49,10 @@ export default function SecurityKeypad() {
   }, [])
 
   // Button dimensions
-  const buttonWidth = 0.15
-  const buttonHeight = 0.15
+  const buttonWidth = 0.25
+  const buttonHeight = 0.25
   const buttonDepth = 0.05
-  const buttonGap = 0.05
+  const buttonGap = 0.08
 
   const handleButtonPress = (value: string) => {
     if (displayValue.length < 4 && !isProcessing) {
@@ -92,20 +92,30 @@ export default function SecurityKeypad() {
     
     return (
       <group position={position} key={value}>
+        {/* Invisible hit area - larger than the visible button */}
+        <Plane 
+          args={[width * 1.5, buttonHeight * 1.5]} 
+          position={[0, 0, buttonDepth/2 + 0.002]}
+          onClick={() => value === 'Enter' ? handleEnter() : handleButtonPress(value)}
+        >
+          <meshBasicMaterial 
+            transparent
+            opacity={0}
+          />
+        </Plane>
+
+        {/* Visible button */}
         <Box args={[width, buttonHeight, buttonDepth]}>
-          <meshStandardMaterial 
+          <meshBasicMaterial 
             color="#444444"
-            metalness={0.5}
-            roughness={0.5}
           />
         </Box>
         <Text
           position={[0, 0, buttonDepth/2 + 0.001]}
-          fontSize={0.08}
+          fontSize={0.12}
           color="#FFFFFF"
           anchorX="center"
           anchorY="middle"
-          onClick={() => value === 'Enter' ? handleEnter() : handleButtonPress(value)}
         >
           {value}
         </Text>
@@ -130,30 +140,28 @@ export default function SecurityKeypad() {
   return (
     <group position={[0, 0, 0]} ref={groupRef}>
       {/* Main keypad body */}
-      <Box args={[0.8, 1.2, 0.1]} position={[0, 0, -0.05]}>
-        <meshStandardMaterial 
-          color="#2C3E50"
-          metalness={0.7}
-          roughness={0.3}
+      <Box args={[1.2, 1.8, 0.1]} position={[0, 0, -0.05]}>
+        <meshBasicMaterial 
+          color="#000000"
+          side={THREE.DoubleSide}
         />
       </Box>
 
       {/* Display screen */}
-      <group position={[0, 0.45, 0]}>
-        <Box args={[0.6, 0.2, 0.05]}>
-          <meshStandardMaterial 
+      <group position={[0, 0.7, 0]}>
+        <Box args={[0.9, 0.3, 0.05]}>
+          <meshBasicMaterial 
             color="#000000"
-            metalness={0.3}
-            roughness={0.2}
+            side={THREE.DoubleSide}
           />
         </Box>
         <Text
           position={[0, 0, 0.03]}
-          fontSize={0.12}
+          fontSize={0.18}
           color="#00FF00"
           anchorX="center"
           anchorY="middle"
-          maxWidth={0.55}
+          maxWidth={0.8}
         >
           {displayValue.padEnd(4, '_')}
         </Text>
@@ -161,8 +169,8 @@ export default function SecurityKeypad() {
 
       {/* Title text */}
       <Text
-        position={[0, -0.5, 0]}
-        fontSize={0.08}
+        position={[0, -0.75, 0]}
+        fontSize={0.12}
         color="#FFFFFF"
         anchorX="center"
         anchorY="middle"
@@ -171,7 +179,9 @@ export default function SecurityKeypad() {
       </Text>
 
       {/* Render all buttons */}
-      {buttons}
+      <group position={[0, 0, 0.001]}>
+        {buttons}
+      </group>
     </group>
   )
 } 
