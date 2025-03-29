@@ -9,6 +9,7 @@ import Laser from './Laser'
 import SecurityKeypad from './SecurityKeypad'
 import FlashlightControl from './FlashlightControl'
 import Stars from './Stars'
+import BackgroundMusic from './BackgroundMusic'
 import { extend } from '@react-three/fiber'
 
 // Define types for the shader material
@@ -121,6 +122,8 @@ export default function Room() {
   return (
     <group>
       <Stars />
+      <BackgroundMusic soundFile="/sounds/background-music.mp3" volume={0.3} autoPlay={true} />
+      
       {/* Floor */}
       <Box args={[width, 0.1, depth]} position={[0, 0, 0]}>
         <vintageWallMaterial 
@@ -242,4 +245,4 @@ export default function Room() {
       <Laser isOn={isLaserOn} />
     </group>
   )
-} 
+}
