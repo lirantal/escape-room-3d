@@ -28,13 +28,29 @@ export default function Stars() {
   }, [])
 
   return (
-    <Html fullscreen style={{ pointerEvents: 'none' }}>
+    <Html
+      position={[0, 0, 0]}
+      prepend
+      center={false}
+      calculatePosition={() => [0, 0, 0]}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        pointerEvents: 'none',
+        width: '100%',
+        height: '100%',
+      }}
+      zIndexRange={[100, 100]}
+      portal={{ current: null }}
+    >
       <div style={{
         position: 'fixed',
         top: '20px',
         left: '20px',
         display: 'flex',
-        gap: '10px'
+        gap: '10px',
+        zIndex: 1000
       }}>
         {[0, 1, 2].map((index) => (
           <div
@@ -64,4 +80,4 @@ export default function Stars() {
       </div>
     </Html>
   )
-} 
+}
