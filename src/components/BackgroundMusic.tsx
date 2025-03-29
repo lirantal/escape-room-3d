@@ -15,33 +15,42 @@ export default function BackgroundMusic({
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(autoPlay)
   const [isMuted, setIsMuted] = useState(false)
+  const [audioInitialized, setAudioInitialized] = useState(false)
 
   useEffect(() => {
-    // Create audio element
+    // Try to find any existing audio element that might have been created by the StartScreen
+    const existingAudio = document.querySelector('audio[src*="background-music"]') as HTMLAudioElement
+
+    if (existingAudio) {
+      // Use the existing audio element that was already playing
+      audioRef.current = existingAudio
+      setIsPlaying(true)
+      setAudioInitialized(true)
+      console.log('Using existing audio element')
+      return
+    }
+
+    // If no existing audio, create a new one
     const audio = new Audio(soundFile)
     audio.loop = true
     audio.volume = volume
     
-    // Store reference to audio element
     audioRef.current = audio
 
-    // Start playing if autoPlay is true
-    if (autoPlay) {
-      // Some browsers require user interaction before playing audio
-      // This is a workaround to try playing immediately, but it may not work in all browsers
-      const playPromise = audio.play()
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Auto-play prevented. User interaction required.', error)
-          setIsPlaying(false)
-        })
-      }
+    // Only try to autoplay if we're confident the user has interacted
+    if (autoPlay && document.body.classList.contains('user-interacted')) {
+      audio.play().catch(error => {
+        console.log('Auto-play still prevented:', error)
+        setIsPlaying(false)
+      })
     }
 
-    // Clean up audio on unmount
     return () => {
-      audio.pause()
-      audio.src = ''
+      // Don't stop existing audio if it's playing from outside this component
+      if (!document.querySelector('audio[src*="background-music"]')) {
+        audio.pause()
+        audio.src = ''
+      }
     }
   }, [soundFile, volume, autoPlay])
 
@@ -51,7 +60,7 @@ export default function BackgroundMusic({
     
     if (isPlaying) {
       audioRef.current.play().catch(error => {
-        console.log('Play prevented. User interaction required.', error)
+        console.log('Play prevented:', error)
         setIsPlaying(false)
       })
     } else {
