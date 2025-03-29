@@ -48,35 +48,44 @@ export default function Stars() {
         position: 'fixed',
         top: '20px',
         left: '20px',
-        display: 'flex',
-        gap: '10px',
-        zIndex: 1000
+        zIndex: 1000,
+        background: 'rgba(0, 0, 0, 0.6)',
+        borderRadius: '12px',
+        padding: '8px 12px',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(2px)',
       }}>
-        {[0, 1, 2].map((index) => (
-          <div
-            key={index}
-            style={{
-              width: '30px',
-              height: '30px',
-              position: 'relative',
-              display: 'inline-block'
-            }}
-          >
-            <svg
-              viewBox="0 0 51 48"
+        <div style={{
+          display: 'flex',
+          gap: '10px',
+        }}>
+          {[0, 1, 2].map((index) => (
+            <div
+              key={index}
               style={{
-                width: '100%',
-                height: '100%',
-                filter: index < activeStars ? 'drop-shadow(0 0 4px #FFD700)' : 'none'
+                width: '30px',
+                height: '30px',
+                position: 'relative',
+                display: 'inline-block'
               }}
             >
-              <path
-                fill={index < activeStars ? "#FFD700" : "#444444"}
-                d="M25.5 0L31.7 18.5H51L35.4 29.9L41.6 48L25.5 36.6L9.4 48L15.6 29.9L0 18.5H19.3L25.5 0Z"
-              />
-            </svg>
-          </div>
-        ))}
+              <svg
+                viewBox="0 0 51 48"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  filter: index < activeStars ? 'drop-shadow(0 0 4px #FFD700)' : 'none'
+                }}
+              >
+                <path
+                  fill={index < activeStars ? "#FFD700" : "#888888"}
+                  d="M25.5 0L31.7 18.5H51L35.4 29.9L41.6 48L25.5 36.6L9.4 48L15.6 29.9L0 18.5H19.3L25.5 0Z"
+                />
+              </svg>
+            </div>
+          ))}
+        </div>
       </div>
     </Html>
   )
