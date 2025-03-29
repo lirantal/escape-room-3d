@@ -8,6 +8,7 @@ import LightSwitch from './LightSwitch'
 import Laser from './Laser'
 import SecurityKeypad from './SecurityKeypad'
 import FlashlightControl from './FlashlightControl'
+import Stars from './Stars'
 import { extend } from '@react-three/fiber'
 
 // Define types for the shader material
@@ -119,6 +120,7 @@ export default function Room() {
 
   return (
     <group>
+      <Stars />
       {/* Floor */}
       <Box args={[width, 0.1, depth]} position={[0, 0, 0]}>
         <vintageWallMaterial 

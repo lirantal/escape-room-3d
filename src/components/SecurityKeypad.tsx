@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Box, Text, Plane } from '@react-three/drei'
 import * as THREE from 'three'
+import { updateStars } from './Stars'
 
 export default function SecurityKeypad() {
   const [displayValue, setDisplayValue] = useState('')
@@ -75,6 +76,7 @@ export default function SecurityKeypad() {
 
     if (displayValue === '9.8') {
       console.log('Access granted! Correct code entered: 9.8')
+      updateStars(1) // Update stars when the correct code is entered
     } else {
       console.log('Access denied! Incorrect code.')
     }
