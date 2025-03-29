@@ -76,7 +76,7 @@ export default function SecurityKeypad() {
 
     if (displayValue === '9.8') {
       console.log('Access granted! Correct code entered: 9.8')
-      updateStars(1) // Update stars when the correct code is entered
+      updateStars('keypad-challenge')
     } else {
       console.log('Access denied! Incorrect code.')
     }
@@ -186,4 +186,4 @@ export default function SecurityKeypad() {
       </group>
     </group>
   )
-} 
+}

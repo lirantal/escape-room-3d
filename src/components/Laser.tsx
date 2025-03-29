@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { Box, Line } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
+import { updateStars } from './Stars'
 import * as THREE from 'three'
 
 interface LaserProps {
@@ -68,10 +69,11 @@ export default function Laser({ isOn }: LaserProps) {
         // Constrain drag point to reasonable bounds
         intersection.y = Math.max(0.5, Math.min(2.5, intersection.y))
         intersection.z = Math.max(-2, Math.min(2, intersection.z))
-        // console.log(intersection);
+        
         // detect if the bending is strong enough:
         if (intersection.x > -7 && intersection.y < 0.98) {
-          console.log('success')
+          console.log('Laser challenge success')
+          updateStars('laser-challenge')
         }
         setDragPoint(intersection)
       }
@@ -129,4 +131,4 @@ export default function Laser({ isOn }: LaserProps) {
       )}
     </group>
   )
-} 
+}

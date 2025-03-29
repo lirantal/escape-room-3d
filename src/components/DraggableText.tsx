@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { Text } from '@react-three/drei'
 import { useThree, useFrame } from '@react-three/fiber'
+import { updateStars } from './Stars'
 import * as THREE from 'three'
 
 // Create a store to track positions of all equation parts
@@ -44,6 +45,7 @@ export default function DraggableText({ position: initialPosition, children, cla
 
       if (isInOrder) {
         console.log('Equation parts are in correct order! 🎉')
+        updateStars('equation-challenge')
         onOrderCheck?.()
       }
     }
@@ -104,4 +106,4 @@ export default function DraggableText({ position: initialPosition, children, cla
       {children}
     </Text>
   )
-} 
+}

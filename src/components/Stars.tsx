@@ -7,9 +7,40 @@ export const updateStarsEvent = new CustomEvent('updateStars', {
   detail: { stars: 0 }
 }) as CustomEvent<{ stars: number }>
 
-export const updateStars = (numStars: number) => {
-  updateStarsEvent.detail.stars = Math.min(3, Math.max(0, numStars))
-  window.dispatchEvent(updateStarsEvent)
+// Keep track of the current stars count
+let currentStars = 0
+
+// Track which challenges have been completed
+const completedChallenges = new Set<string>()
+
+// Update stars by challenge ID to prevent duplicates
+export const updateStars = (challengeId: string = '') => {
+  // If no challenge ID provided or this challenge is already completed, do nothing
+  if (!challengeId || completedChallenges.has(challengeId)) {
+    return currentStars;
+  }
+  
+  // Mark this challenge as completed
+  completedChallenges.add(challengeId);
+  
+  // Increment star count (up to max of 3)
+  currentStars = Math.min(3, currentStars + 1);
+  
+  // Update the event
+  updateStarsEvent.detail.stars = currentStars;
+  window.dispatchEvent(updateStarsEvent);
+  
+  console.log(`Challenge completed: ${challengeId}, Total stars: ${currentStars}`);
+  return currentStars;
+}
+
+// Reset stars and completed challenges (for testing/debugging)
+export const resetStars = () => {
+  currentStars = 0;
+  completedChallenges.clear();
+  updateStarsEvent.detail.stars = 0;
+  window.dispatchEvent(updateStarsEvent);
+  return 0;
 }
 
 export default function Stars() {
@@ -21,6 +52,9 @@ export default function Stars() {
     }
 
     window.addEventListener('updateStars', handleStarsUpdate as EventListener)
+
+    // Initialize the component with current stored stars
+    setActiveStars(currentStars)
 
     return () => {
       window.removeEventListener('updateStars', handleStarsUpdate as EventListener)
