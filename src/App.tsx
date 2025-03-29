@@ -7,11 +7,14 @@ import { Suspense, useRef, useEffect, useState } from 'react'
 import type { CharacterHandle } from './components/Character'
 import * as THREE from 'three'
 import StartScreen from './components/StartScreen'
+import SuccessScreen from './components/SuccessScreen'
+import { updateStarsEvent } from './components/Stars'
 
 export default function App() {
   const characterRef = useRef<CharacterHandle>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const [gameStarted, setGameStarted] = useState(false)
+  const [gameCompleted, setGameCompleted] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
@@ -30,6 +33,35 @@ export default function App() {
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
     return () => document.removeEventListener('touchmove', handleTouchMove);
   }, []);
+
+  // Listen for star updates to detect game completion
+  useEffect(() => {
+    const handleStarsUpdate = (event: CustomEvent<{ stars: number }>) => {
+      if (event.detail.stars === 3) {
+        // Add a small delay before showing success screen
+        setTimeout(() => {
+          setGameCompleted(true)
+          playSuccessSound()
+        }, 500)
+      }
+    }
+
+    window.addEventListener('updateStars', handleStarsUpdate as EventListener)
+
+    return () => {
+      window.removeEventListener('updateStars', handleStarsUpdate as EventListener)
+    }
+  }, [])
+
+  const playSuccessSound = () => {
+    try {
+      const successSound = new Audio('/sounds/success.mp3') // Optional: Add a success sound
+      successSound.volume = 0.5
+      successSound.play().catch(e => console.log('Cannot play success sound:', e))
+    } catch (e) {
+      console.log('Failed to play success sound:', e)
+    }
+  }
 
   const handleCharacterMove = (x: number, z: number) => {
     if (characterRef.current) {
@@ -68,9 +100,14 @@ export default function App() {
     }
   }
 
+  const restartGame = () => {
+    setGameCompleted(false)
+  }
+
   return (
     <>
       {!gameStarted && <StartScreen onStart={startGame} />}
+      {gameCompleted && <SuccessScreen onRestart={restartGame} />}
       <div style={{ width: '100vw', height: '100vh', touchAction: 'none', position: 'relative' }}>
         <Canvas>
           <Suspense fallback={null}>
