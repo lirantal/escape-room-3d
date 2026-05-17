@@ -40,3 +40,7 @@ npm run dev
 - React Three Fiber
 - TypeScript
 - Vite 
+
+## Contributing
+
+Please consult [CONTRIBUTING](./CONTRIBUTING.md) for guidelines on contributing to this project.
