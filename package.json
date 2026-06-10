@@ -1,4 +1,8 @@
 {
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
   "name": "room-3d",
   "version": "1.0.0",
   "description": "A 3D mobile web game set in a professor's room",
